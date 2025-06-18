@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ nome }} - Perfil | Tinder do Aço</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: url('{{ url_for('static', filename="images/fundoperfil.jpg") }}') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+        }
+
+        .perfil-container {
+            position: relative;
+            width: 100%;
+            max-width: 420px;
+            margin: 40px auto;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
+            background-color: rgba(0, 0, 0, 0.7); /* Fundo escuro semi-transparente */
+        }
+
+        .perfil-foto {
+            width: 100%;
+            height: 600px;  /* FOTO MAIOR */
+            background-image: url('{{ url_for('static', filename="images/perfil2.jpg") }}');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .perfil-info {
+            padding: 20px;
+            padding-top: 30px;
+            text-shadow: 2px 2px 8px black;  /* SOMBRA FORTE NO TEXTO */
+        }
+
+        .perfil-info h2 {
+            font-size: 32px;
+            margin: 10px 0;
+        }
+
+        .perfil-info p {
+            font-size: 18px;
+            margin: 6px 0;
+        }
+
+        .botoes {
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0 20px 0;
+            background: rgba(0, 0, 0, 0.8);  /* Fundo para destacar os botões */
+        }
+
+        .botao-acao {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            color: white;
+            font-size: 26px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            cursor: pointer;
+        }
+
+        .dislike {
+            background-color: #ff4d4d;
+        }
+
+        .like {
+            background-color: #4CAF50;
+        }
+
+        .superlike {
+            background-color: #2196F3;
+        }
+    </style>
+</head>
+<body>
+    <div class="perfil-container">
+
+        <div class="perfil-foto"></div>
+
+        <div class="perfil-info">
+            <h2>{{ nome }}, {{ idade }}</h2>
+            <p>🔍 {{ objetivo }}</p>
+            <p>😍 {{ bio }}</p>
+        </div>
+
+        <div class="botoes">
+            <button class="botao-acao dislike">✖️</button>
+            <button class="botao-acao superlike">⭐</button>
+            <button class="botao-acao like">❤️</button>
+        </div>
+
+    </div>
+</body>
+</html>

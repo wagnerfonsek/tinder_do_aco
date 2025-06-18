@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro - Tinder do Aço</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+  body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background-image: url("{{ url_for('static', filename='images/fundo1.jpg') }}");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+}
+
+.titulo-metal {
+    text-align: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px 0;
+    font-size: 48px;
+    font-family: 'Arial Black', Gadget, sans-serif;
+    color: #00BFFF; /* Azul metálico */
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+    z-index: 1000;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+}
+
+@keyframes shine {
+    to {
+        background-position: 200% center;
+    }
+}
+
+/* Estilo para os labels do formulário */
+label {
+    font-weight: bold;
+    font-size: 18px;
+    color: #FFD700;  /* Dourado metálico */
+    text-shadow: 1px 1px 2px black;
+    font-family: 'Arial Black', Gadget, sans-serif;
+}
+form {
+    background: rgba(30, 30, 30, 0.85); /* Fundo escuro semi-transparente */
+    border: 2px solid #00BFFF; /* Borda azul metálica */
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 191, 255, 0.5); /* Sombra azulada */
+    max-width: 400px;
+    width: 100%;
+    backdrop-filter: blur(8px); /* Efeito vidro fosco */
+}
+
+
+/* ... resto do CSS antigo ... */
+</style>
+
+</head>
+<body>
+
+
+  <h1 class="titulo-metal">Cadastro de Participantes 💘🏹</h1>
+    
+    
+   <form action="/cadastro" method="POST">
+    <label>Nome:</label><br>
+    <input type="text" name="nome" placeholder="Digite seu nome" required><br><br>
+
+    <label>Idade:</label><br>
+    <input type="number" name="idade" placeholder="Ex: 25" required><br><br>
+
+    <label>Gênero:</label><br>
+    <select name="genero" required>
+        <option value="">Selecione</option>
+        <option value="homem">Homem</option>
+        <option value="mulher">Mulher</option>
+        <option value="outro">Outro</option>
+    </select><br><br>
+
+    <label>Celular:</label><br>
+    <input type="text" name="celular" placeholder="(DDD) 9XXXX-XXXX" required><br><br>
+
+
+    <label>Senha:</label><br>
+<input type="password" name="senha" placeholder="Senha com letra e número (mín. 6)" 
+       pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$" 
+       title="A senha deve ter no mínimo 6 caracteres, incluindo letras e números" 
+       required><br><br>
+
+
+    <label>Objetivo:</label><br>
+<select name="objetivo" required>
+    <option value="">Selecione</option>
+    <option value="relacionamento_serio">Relacionamento Sério</option>
+    <option value="relacionamento_casual">Relacionamento Casual</option>
+    <option value="amizade">Amizade</option>
+</select><br><br>
+
+
+
+    <button type="submit">Cadastrar</button>
+</form>
+
+</body>
+</html>

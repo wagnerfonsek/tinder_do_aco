@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Tinder do Aço 💪</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+            background: url('{{ url_for('static', filename='images/fundo.jpg') }}') no-repeat center center fixed;
+            background-size: 100% 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+            text-shadow: 2px 2px 5px black;
+        }
+
+        .container {
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 40px;
+            border-radius: 20px;
+        }
+
+        h1 {
+            font-size: 60px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        p {
+            font-size: 20px;
+            margin-bottom: 30px;
+        }
+
+        .botao {
+            padding: 15px 30px;
+            font-size: 20px;
+            background-color: #ff4141;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 600px;
+        }
+
+        .botao:hover {
+            background-color: #e62e2e;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    
+
+
+
+
+
+
+        <a href="/cadastro"><button class="botao">Começar Agora</button></a>
+    </div>
+</body>
+</html>
