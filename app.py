@@ -4,19 +4,14 @@ import os
 
 app = Flask(__name__)
 
+# Função para conectar ao banco
 def conectar_banco():
     db_path = os.path.join(os.path.dirname(__file__), 'banco.db')
     conn = sqlite3.connect(db_path)
     return conn
 
-# Página Inicial → Apenas um botão "Login"
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html')
-
-# Login
-@app.route('/login', methods=['GET', 'POST'])
-def login():
     if request.method == 'POST':
         usuario = request.form.get('usuario')
         senha = request.form.get('senha')
@@ -32,9 +27,8 @@ def login():
         else:
             return "Login inválido! Tente novamente."
 
-    return render_template('login.html')
+    return render_template('index.html')
 
-# Cadastro
 @app.route('/cadastro', methods=['GET', 'POST'])
 def cadastro():
     if request.method == 'POST':
@@ -65,13 +59,12 @@ def cadastro():
             ''', (nome, idade, genero, celular, senha, objetivo))
             conn.commit()
             conn.close()
-            return redirect(url_for('login'))
+            return redirect(url_for('index'))
         except Exception as e:
             app.logger.error('Erro no cadastro: %s', e, exc_info=True)
             return 'Erro interno ao cadastrar. Verifique logs.', 500
     return render_template('cadastro.html')
 
-# Boas-vindas
 @app.route('/boas_vindas')
 def boas_vindas():
     nome = request.args.get('nome', 'Usuário')
