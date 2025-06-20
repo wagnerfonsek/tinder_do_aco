@@ -76,6 +76,25 @@ def boas_vindas():
 #         }
 #         return render_template('perfil.html', **usuario)
 #     return f"Usuário {username} não encontrado."
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        usuario = request.form.get('usuario')
+        senha = request.form.get('senha')
+
+        conn = conectar_banco()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM usuarios WHERE nome = ? AND senha = ?", (usuario, senha))
+        user = cursor.fetchone()
+        conn.close()
+
+        if user:
+            return redirect(url_for('boas_vindas', nome=usuario))
+        else:
+            return "Login inválido! Tente novamente."
+
+    return render_template('login.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)

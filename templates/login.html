@@ -1,23 +1,68 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <title>Login - Tinder do Aço</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('{{ url_for('static', filename='images/fundo1.jpg') }}');
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+        }
+        .login-container {
+            width: 300px;
+            margin: 100px auto;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            color: #fff;
+            box-shadow: 0 0 10px #000;
+        }
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+        }
+        .login-container input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background: #ff4d4d;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+        }
+        .login-container input[type="submit"]:hover {
+            background: #e60000;
+        }
+        .login-container a {
+            color: #ffcccc;
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
-
-    <h1>Login - Tinder do Aço 🔐</h1>
-
-    <form action="/login" method="POST">
-        <label>Celular:</label><br>
-        <input type="text" name="celular" required><br><br>
-
-        <label>Senha:</label><br>
-        <input type="password" name="senha" required><br><br>
-
-        <button type="submit">Entrar</button>
-    </form>
-
+    <div class="login-container">
+        <h2>Login</h2>
+        <form method="POST">
+            <input type="text" name="usuario" placeholder="Nome de Usuário" required>
+            <input type="password" name="senha" placeholder="Senha" required>
+            <input type="submit" value="Entrar">
+        </form>
+        <a href="{{ url_for('cadastro') }}">Não tem conta? Cadastre-se</a>
+    </div>
 </body>
 </html>
