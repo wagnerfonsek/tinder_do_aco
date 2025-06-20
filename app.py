@@ -4,17 +4,33 @@ import os
 
 app = Flask(__name__)
 
-# Função para conectar ao banco
+# Função para conectar ao banco de dados
 def conectar_banco():
-    # Usa caminho absoluto para banco.db na mesma pasta do app
     db_path = os.path.join(os.path.dirname(__file__), 'banco.db')
     conn = sqlite3.connect(db_path)
     return conn
 
-@app.route('/')
+# Página Inicial com formulário de Login
+@app.route('/', methods=['GET', 'POST'])
 def index():
+    if request.method == 'POST':
+        usuario = request.form.get('usuario')
+        senha = request.form.get('senha')
+
+        conn = conectar_banco()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM usuarios WHERE nome = ? AND senha = ?", (usuario, senha))
+        user = cursor.fetchone()
+        conn.close()
+
+        if user:
+            return redirect(url_for('boas_vindas', nome=usuario))
+        else:
+            return "Login inválido! Tente novamente."
+
     return render_template('index.html')
 
+# Rota de Cadastro de usuários
 @app.route('/cadastro', methods=['GET', 'POST'])
 def cadastro():
     if request.method == 'POST':
@@ -28,7 +44,8 @@ def cadastro():
 
             conn = conectar_banco()
             cursor = conn.cursor()
-            # Garante criação da tabela se não existir
+
+            # Garante que a tabela exista
             cursor.execute('''
                 CREATE TABLE IF NOT EXISTS usuarios (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -40,25 +57,32 @@ def cadastro():
                     objetivo TEXT NOT NULL
                 )
             ''')
-            # Insere o usuário
+
+            # Insere o novo usuário
             cursor.execute('''
                 INSERT INTO usuarios (nome, idade, genero, celular, senha, objetivo)
                 VALUES (?, ?, ?, ?, ?, ?)
             ''', (nome, idade, genero, celular, senha, objetivo))
+
             conn.commit()
             conn.close()
-            return redirect(url_for('boas_vindas', nome=nome))
+
+            # Após o cadastro, redireciona para a página inicial (login)
+            return redirect(url_for('index'))
+
         except Exception as e:
             app.logger.error('Erro no cadastro: %s', e, exc_info=True)
             return 'Erro interno ao cadastrar. Verifique logs.', 500
+
     return render_template('cadastro.html')
 
+# Rota de Boas-vindas após login bem-sucedido
 @app.route('/boas_vindas')
 def boas_vindas():
     nome = request.args.get('nome', 'Usuário')
     return render_template('boas_vindas.html', nome=nome)
 
-# Exemplo de rota perfil, descomente se necessário:
+# Exemplo de rota de perfil (desativada por enquanto)
 # @app.route('/perfil/<username>')
 # def perfil(username):
 #     conn = conectar_banco()
@@ -76,28 +100,8 @@ def boas_vindas():
 #         }
 #         return render_template('perfil.html', **usuario)
 #     return f"Usuário {username} não encontrado."
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        usuario = request.form.get('usuario')
-        senha = request.form.get('senha')
 
-        conn = conectar_banco()
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM usuarios WHERE nome = ? AND senha = ?", (usuario, senha))
-        user = cursor.fetchone()
-        conn.close()
-
-        if user:
-            return redirect(url_for('boas_vindas', nome=usuario))
-        else:
-            return "Login inválido! Tente novamente."
-
-    return render_template('login.html')
-
-
-import os
-
+# Configuração para rodar no Render
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
