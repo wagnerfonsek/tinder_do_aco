@@ -5,16 +5,15 @@
     <title>Bem-vindo ao Tinder do Aço</title>
     <style>
         body {
-    background-image: url("{{ url_for('static', filename='images/fundo5.jpg') }}");
-    background-repeat: no-repeat;
-    background-position: center top;
-    background-size: 1500px 900px; /* Largura x Altura manual */
-    color: white;
-    font-family: Arial, sans-serif;
-    text-align: center;
-    padding-top: 100px;
-}
-
+            background-image: url("{{ url_for('static', filename='images/fundo5.jpg') }}");
+            background-repeat: no-repeat;
+            background-position: center top;
+            background-size: 1500px 900px;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 100px;
+        }
         h1 {
             color: #FFD700;
             text-shadow: 2px 2px 5px #000;
@@ -41,8 +40,8 @@
 
     <a href="/" class="botao">🏠 Ir para a Página Inicial</a><br><br>
 
-    <!-- Botão para visualizar o perfil -->
-    <a href="/perfil/{{ celular }}" class="botao">👤 Ver Meu Perfil</a>
+    <!-- Botão de perfil desativado por enquanto -->
+    <!-- <a href="/perfil/{{ celular }}" class="botao">👤 Ver Meu Perfil</a> -->
 
 </body>
 </html>
