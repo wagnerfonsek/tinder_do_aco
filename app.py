@@ -23,7 +23,7 @@ def index():
         conn.close()
 
         if user:
-            return redirect(url_for('boas_vindas', nome=usuario))
+            return redirect(url_for('perfil', username=usuario))
         else:
             return "Login inválido! Tente novamente."
 
@@ -69,6 +69,25 @@ def cadastro():
 def boas_vindas():
     nome = request.args.get('nome', 'Usuário')
     return render_template('boas_vindas.html', nome=nome)
+
+# Rota de perfil
+@app.route('/perfil/<username>')
+def perfil(username):
+    conn = conectar_banco()
+    cursor = conn.cursor()
+    cursor.execute("SELECT nome, idade, objetivo FROM usuarios WHERE nome = ?", (username,))
+    resultado = cursor.fetchone()
+    conn.close()
+
+    if resultado:
+        usuario = {
+            'nome': resultado[0],
+            'idade': resultado[1],
+            'objetivo': resultado[2]
+        }
+        return render_template('perfil.html', **usuario)
+
+    return f"Usuário {username} não encontrado."
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
