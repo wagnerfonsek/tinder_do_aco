@@ -4,18 +4,17 @@ import os
 
 app = Flask(__name__)
 
-# Função para conectar ao banco de dados
 def conectar_banco():
     db_path = os.path.join(os.path.dirname(__file__), 'banco.db')
     conn = sqlite3.connect(db_path)
     return conn
 
-# Página inicial - Apenas o botão para ir pro Login
+# Página Inicial → Apenas um botão "Login"
 @app.route('/')
 def index():
     return render_template('index.html')
 
-# Página de Login
+# Login
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -35,7 +34,7 @@ def login():
 
     return render_template('login.html')
 
-# Página de Cadastro
+# Cadastro
 @app.route('/cadastro', methods=['GET', 'POST'])
 def cadastro():
     if request.method == 'POST':
@@ -49,8 +48,6 @@ def cadastro():
 
             conn = conectar_banco()
             cursor = conn.cursor()
-
-            # Garante que a tabela exista
             cursor.execute('''
                 CREATE TABLE IF NOT EXISTS usuarios (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -62,32 +59,24 @@ def cadastro():
                     objetivo TEXT NOT NULL
                 )
             ''')
-
-            # Insere o novo usuário
             cursor.execute('''
                 INSERT INTO usuarios (nome, idade, genero, celular, senha, objetivo)
                 VALUES (?, ?, ?, ?, ?, ?)
             ''', (nome, idade, genero, celular, senha, objetivo))
-
             conn.commit()
             conn.close()
-
-            # Após cadastro, redireciona de volta ao login
             return redirect(url_for('login'))
-
         except Exception as e:
             app.logger.error('Erro no cadastro: %s', e, exc_info=True)
             return 'Erro interno ao cadastrar. Verifique logs.', 500
-
     return render_template('cadastro.html')
 
-# Página de Boas-vindas
+# Boas-vindas
 @app.route('/boas_vindas')
 def boas_vindas():
     nome = request.args.get('nome', 'Usuário')
     return render_template('boas_vindas.html', nome=nome)
 
-# Configuração para rodar no Render
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)

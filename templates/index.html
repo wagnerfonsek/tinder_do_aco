@@ -2,12 +2,34 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Tinder do Aço - Início</title>
+    <title>Página Inicial - Tinder do Aço</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url("{{ url_for('static', filename='images/fundo1.jpg') }}");
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            color: white;
+            padding-top: 150px;
+        }
+        .botao {
+            padding: 10px 25px;
+            background-color: #00BFFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 18px;
+        }
+        .botao:hover {
+            background-color: #1E90FF;
+        }
+    </style>
 </head>
 <body>
-    <h1>Bem-vindo ao Tinder do Aço</h1>
-    <a href="{{ url_for('login') }}">
-        <button>Entrar (Login)</button>
-    </a>
+    <h1>Bem-vindo ao Tinder do Aço!</h1>
+    <a href="{{ url_for('login') }}" class="botao">Entrar</a>
 </body>
 </html>
