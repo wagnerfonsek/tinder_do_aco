@@ -10,9 +10,14 @@ def conectar_banco():
     conn = sqlite3.connect(db_path)
     return conn
 
-# Página Inicial com formulário de Login
-@app.route('/', methods=['GET', 'POST'])
+# Página inicial - Apenas o botão para ir pro Login
+@app.route('/')
 def index():
+    return render_template('index.html')
+
+# Página de Login
+@app.route('/login', methods=['GET', 'POST'])
+def login():
     if request.method == 'POST':
         usuario = request.form.get('usuario')
         senha = request.form.get('senha')
@@ -28,9 +33,9 @@ def index():
         else:
             return "Login inválido! Tente novamente."
 
-    return render_template('index.html')
+    return render_template('login.html')
 
-# Rota de Cadastro de usuários
+# Página de Cadastro
 @app.route('/cadastro', methods=['GET', 'POST'])
 def cadastro():
     if request.method == 'POST':
@@ -67,8 +72,8 @@ def cadastro():
             conn.commit()
             conn.close()
 
-            # Após o cadastro, redireciona para a página inicial (login)
-            return redirect(url_for('index'))
+            # Após cadastro, redireciona de volta ao login
+            return redirect(url_for('login'))
 
         except Exception as e:
             app.logger.error('Erro no cadastro: %s', e, exc_info=True)
@@ -76,30 +81,11 @@ def cadastro():
 
     return render_template('cadastro.html')
 
-# Rota de Boas-vindas após login bem-sucedido
+# Página de Boas-vindas
 @app.route('/boas_vindas')
 def boas_vindas():
     nome = request.args.get('nome', 'Usuário')
     return render_template('boas_vindas.html', nome=nome)
-
-# Exemplo de rota de perfil (desativada por enquanto)
-# @app.route('/perfil/<username>')
-# def perfil(username):
-#     conn = conectar_banco()
-#     cursor = conn.cursor()
-#     cursor.execute("SELECT nome, idade, objetivo FROM usuarios WHERE nome = ?", (username,))
-#     resultado = cursor.fetchone()
-#     conn.close()
-#     if resultado:
-#         usuario = {
-#             'nome': resultado[0],
-#             'idade': resultado[1],
-#             'bio': f"{resultado[0]} tem {resultado[1]} anos e o objetivo é {resultado[2]}",
-#             'objetivo': resultado[2],
-#             'foto': 'perfil1.jpg'
-#         }
-#         return render_template('perfil.html', **usuario)
-#     return f"Usuário {username} não encontrado."
 
 # Configuração para rodar no Render
 if __name__ == '__main__':
